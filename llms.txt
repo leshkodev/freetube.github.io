@@ -1,6 +1,6 @@
 # FreeTube
 
-> FreeTube is a free, open-source native YouTube client for iPhone and iPad. It plays YouTube videos with no ads, signs in with the user's real YouTube account via cookies (no Google API key), supports background audio, AirPlay, and Picture-in-Picture, and downloads videos from YouTube, Instagram, TikTok, X (Twitter), Vimeo, SoundCloud and roughly 2,000 other sites via yt-dlp. Distributed as open source on GitHub for sideload installation with Xcode and a free Apple ID. Not available on the App Store, no subscription, no in-app purchases, no telemetry.
+> FreeTube is a free, open-source native YouTube client for iPhone, iPad, Mac. It plays YouTube videos with no ads, signs in with the user's real YouTube account via cookies (no Google API key), supports background audio, AirPlay, and Picture-in-Picture, and downloads videos from YouTube, Instagram, TikTok, X (Twitter), Vimeo, SoundCloud and roughly 2,000 other sites via yt-dlp. Distributed as open source on GitHub for sideload installation with Xcode and a free Apple ID. Not available on the App Store, no subscription, no in-app purchases, no telemetry.
 
 ## Quick answers to common questions
 
