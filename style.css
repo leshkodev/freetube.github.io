@@ -1,0 +1,673 @@
+/* ============================================================
+   FreeTube — freetube.io
+   Modern, dark, responsive single-page site.
+   ============================================================ */
+
+/* ---- Reset / base ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+               system-ui, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e6e6ea;
+  background: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+:root {
+  --accent: #ff453a;
+  --accent-soft: #ff6b62;
+  --grad-1: #ff453a;
+  --grad-2: #ff8a3d;
+  --bg: #0a0a0a;
+  --bg-1: #111114;
+  --bg-2: #161619;
+  --bg-3: #1d1d22;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.05);
+  --text: #e6e6ea;
+  --text-dim: #a0a0a8;
+  --text-faint: #6b6b75;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --max: 1180px;
+  --max-narrow: 820px;
+  --shadow-soft: 0 12px 40px -10px rgba(0,0,0,0.5);
+  --shadow-strong: 0 25px 60px -15px rgba(0,0,0,0.7);
+}
+
+/* ---- Layout helpers ---- */
+.container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+.container-narrow { max-width: var(--max-narrow); }
+.text-center { text-align: center; }
+
+/* ---- Typography ---- */
+h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 0.5em; }
+h1 { font-size: clamp(2.2rem, 5vw + 1rem, 4.4rem); font-weight: 800; }
+h2 { font-size: clamp(1.7rem, 2.5vw + 1rem, 2.6rem); font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p  { margin: 0 0 1em; color: var(--text-dim); }
+strong { color: var(--text); }
+code, kbd, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+code { background: var(--bg-2); padding: 2px 6px; border-radius: 6px; font-size: 0.9em; color: #f7d6d2; }
+kbd { background: var(--bg-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; font-size: 0.85em; }
+pre  { background: var(--bg-2); padding: 16px; border-radius: var(--radius); overflow-x: auto; border: 1px solid var(--border); }
+pre code { background: transparent; padding: 0; color: #e6e6ea; }
+.grad { background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.section-title { text-align: center; }
+.section-lead { text-align: center; max-width: 720px; margin: 0 auto 56px; color: var(--text-dim); font-size: 1.05rem; }
+
+/* ---- Header / nav ---- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(10, 10, 10, 0.7);
+  border-bottom: 1px solid var(--border-soft);
+}
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--max); margin: 0 auto;
+  padding: 14px 24px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; }
+.brand-icon { filter: drop-shadow(0 0 12px rgba(255, 69, 58, 0.5)); }
+.nav-links {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: center; gap: 28px;
+}
+.nav-links a {
+  color: var(--text-dim); font-size: 0.95rem; transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--bg-2); border: 1px solid var(--border);
+  padding: 8px 14px; border-radius: 999px; color: var(--text) !important;
+}
+.nav-cta:hover { background: var(--bg-3); border-color: rgba(255,255,255,0.16); }
+
+/* Mobile burger. Explicit width on the bars + align-items: center on the button
+   so the visibility doesn't depend on flex's default stretch behaviour (which some
+   browsers / cached states render at 0 width, making the button invisible). */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  padding: 10px;
+  width: 44px;            /* Apple's recommended minimum touch target */
+  height: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  position: relative;
+  z-index: 51;            /* above the sticky header, above any backdrops */
+  color: var(--text);
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;            /* explicit, not relying on flex stretch */
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: absolute; top: 64px; right: 0; left: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(10, 10, 10, 0.96);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 24px 16px;
+    transform: translateY(-12px); opacity: 0; pointer-events: none;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .nav-links li { border-bottom: 1px solid var(--border-soft); }
+  /* GitHub CTA: standalone pill, centered, with its own padding instead of the
+     "padding: 14px 0" used by the other plain text links. The flex on the <li>
+     centers the pill horizontally; the !important on padding overrides the
+     plain-link rule on the same selector level. */
+  .nav-links li:last-child {
+    border-bottom: 0;
+    padding-top: 12px;
+    display: flex;
+    justify-content: center;
+  }
+  .nav-links a { display: block; padding: 14px 0; font-size: 1rem; }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 22px !important;
+    font-size: 0.95rem;
+  }
+}
+
+/* ---- Hero ---- */
+.hero {
+  position: relative;
+  padding: 80px 0 120px;
+  overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(255, 69, 58, 0.18), transparent 50%),
+    radial-gradient(circle at 0% 80%, rgba(255, 138, 61, 0.10), transparent 50%);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  max-width: var(--max); margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px;
+  align-items: center;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--text-dim); margin: 0 0 20px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.hero-eyebrow .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #30d158; box-shadow: 0 0 12px rgba(48, 209, 88, 0.6);
+}
+.hero-copy h1 { margin-bottom: 24px; }
+.hero-list {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  max-width: 560px;
+  display: grid;
+  gap: 10px;
+  font-size: 1.08rem;
+  color: var(--text-dim);
+}
+.hero-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.5;
+}
+.hero-list li > svg {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: var(--accent-soft);
+  margin-top: 3px;
+}
+.hero-list strong { color: var(--text); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; }
+
+/* Mobile: hero CTA pair stacks into one column, two rows, centered horizontally.
+   max-width on each button keeps them from going edge-to-edge on slightly wider phones. */
+@media (max-width: 760px) {
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-cta .btn {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+}
+.hero-badges {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 20px 24px;
+  color: var(--text-dim); font-size: 0.95rem;
+}
+.hero-badges li {
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.hero-badges .sf {
+  width: 20px; height: 20px;
+  color: var(--accent-soft);
+  flex-shrink: 0;
+}
+
+.hero-art {
+  position: relative;
+  height: 580px;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-phone {
+  position: absolute;
+  width: 240px; aspect-ratio: 1290/2796;
+  border-radius: 38px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.08);
+  box-shadow: var(--shadow-strong);
+  background: #000;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hero-phone img { width: 100%; height: 100%; object-fit: cover; }
+.hero-phone--front { z-index: 3; transform: translateY(0) rotate(0); }
+.hero-phone--back  { z-index: 2; transform: translate(80px, 30px) rotate(8deg); opacity: 0.85; }
+.hero-phone--side  { z-index: 1; transform: translate(-80px, 30px) rotate(-8deg); opacity: 0.75; }
+.hero-art:hover .hero-phone--front { transform: translateY(-6px); }
+.hero-art:hover .hero-phone--back  { transform: translate(110px, 24px) rotate(10deg); }
+.hero-art:hover .hero-phone--side  { transform: translate(-110px, 24px) rotate(-10deg); }
+
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-art { height: 480px; transform: scale(0.85); }
+}
+@media (max-width: 500px) {
+  .hero { padding: 56px 0 80px; }
+  .hero-art { height: 420px; transform: scale(0.75); }
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-weight: 600; font-size: 0.98rem;
+  border: 1px solid transparent;
+  transition: transform 0.15s, background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+  color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(255, 69, 58, 0.6);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -10px rgba(255, 69, 58, 0.7); }
+.btn-ghost {
+  background: var(--bg-2); border-color: var(--border); color: var(--text);
+}
+.btn-ghost:hover { background: var(--bg-3); border-color: rgba(255,255,255,0.16); }
+
+/* ---- Sections ---- */
+section { padding: 96px 0; }
+@media (max-width: 600px) { section { padding: 72px 0; } }
+.features      { background: var(--bg-1); }
+.screenshots   { background: var(--bg); }
+.install       { background: var(--bg-1); }
+.how-to        { background: var(--bg); }
+.why           { background: var(--bg-1); }
+.tech          { background: var(--bg); }
+.faq           { background: var(--bg-1); }
+.cta           { background: linear-gradient(180deg, var(--bg-1), var(--bg)); }
+
+/* ---- Feature cards ---- */
+.grid { display: grid; gap: 20px; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-3 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+}
+.card:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.14); background: var(--bg-3); }
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(255, 69, 58, 0.18), rgba(255, 138, 61, 0.10));
+  border: 1px solid rgba(255, 69, 58, 0.25);
+  color: var(--accent-soft);
+}
+.card-icon svg { width: 26px; height: 26px; display: block; }
+.card h3    { margin-bottom: 8px; }
+.card p     { margin: 0; }
+
+/* ---- Screenshot grid ---- */
+/* Screenshots are 1290×2796 (tall portrait phone aspect ~0.461).
+   8 shots arranged as 2 rows × 4 cols on desktop, each cell capped so the rendered
+   phones stay realistic in size. `justify-content: center` keeps the constrained
+   cells centered inside the wider container. */
+.shot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 230px));
+  gap: 36px 24px;
+  justify-content: center;
+}
+@media (max-width: 1080px) {
+  .shot-grid { grid-template-columns: repeat(3, minmax(0, 230px)); }
+}
+@media (max-width: 820px) {
+  .shot-grid { grid-template-columns: repeat(2, minmax(0, 240px)); gap: 32px; }
+}
+@media (max-width: 520px) {
+  .shot-grid { grid-template-columns: minmax(0, 260px); gap: 28px; }
+}
+
+.shot {
+  margin: 0;
+  text-align: center;
+  transition: transform 0.2s;
+}
+.shot:hover { transform: translateY(-4px); }
+.shot img {
+  border-radius: 22px;
+  width: 100%;
+  height: auto;                  /* CRITICAL: overrides the HTML height="2796" attr */
+  display: block;
+  aspect-ratio: 1290 / 2796;     /* matches the original screenshot ratio exactly */
+  background: #000;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-soft);
+}
+.shot figcaption {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+.shot figcaption strong { color: var(--text); }
+
+/* ---- Install steps ---- */
+.steps {
+  list-style: none; counter-reset: step;
+  margin: 0; padding: 0;
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 760px) {
+  .steps { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.step {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px 20px;
+  /* CRITICAL: grid items have min-width: auto by default, which lets the long git URL
+     inside <pre> expand the card past the column width and push the whole page wider.
+     min-width: 0 forces the card to respect its column and lets the <pre> scroll. */
+  min-width: 0;
+}
+/* Step number is now inline with the title (was absolutely positioned above the card,
+   which on mobile clipped against the next card's content). */
+.step h3 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 10px;
+  line-height: 1.25;
+  /* same min-width: 0 trick so a long title wraps instead of pushing the badge out. */
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
+  color: #fff; font-weight: 700; font-size: 0.95rem;
+  box-shadow: 0 6px 18px -4px rgba(255, 69, 58, 0.6);
+}
+.step p  { margin: 0; }
+.step pre {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 0.85rem;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.step pre code { white-space: pre; }     /* keep the URL on one line; scroll it instead of wrapping mid-token */
+.step a    { color: var(--accent-soft); text-decoration: underline; text-underline-offset: 3px; word-break: break-word; }
+.step code { word-break: break-word; }   /* inline code tokens (e.g. com.yourname.freetube) can wrap */
+
+/* Mobile tuning: smaller padding + slightly smaller badge so the title row breathes. */
+@media (max-width: 540px) {
+  .step { padding: 20px 18px 18px; }
+  .step h3 { font-size: 1.05rem; gap: 12px; }
+  .step-num { width: 28px; height: 28px; font-size: 0.85rem; }
+  .step pre { font-size: 0.78rem; padding: 12px; }
+}
+
+.callout {
+  margin-top: 40px;
+  background: rgba(255, 69, 58, 0.06);
+  border: 1px solid rgba(255, 69, 58, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  min-width: 0;
+}
+@media (max-width: 540px) {
+  .callout { margin-top: 28px; padding: 20px 18px; }
+  .callout ul { padding-left: 18px; }
+}
+.callout h3 { color: var(--accent-soft); margin-bottom: 12px; }
+.callout ul { margin: 0; padding-left: 20px; color: var(--text-dim); }
+.callout li { margin-bottom: 6px; }
+.callout a { color: var(--accent-soft); text-decoration: underline; text-underline-offset: 3px; }
+.callout-primary {
+  background: rgba(48, 209, 88, 0.07);
+  border-color: rgba(48, 209, 88, 0.30);
+}
+.callout-primary h3 { color: #5fd97e; }
+.callout-primary p { color: var(--text-dim); margin-bottom: 18px; }
+.callout-primary .btn { text-decoration: none; }
+.callout-primary a.btn.btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #34c759, #28a745);
+  box-shadow: 0 8px 24px -8px rgba(48, 209, 88, 0.6);
+}
+.callout-primary a.btn.btn-primary:hover {
+  box-shadow: 0 12px 32px -10px rgba(48, 209, 88, 0.7);
+}
+
+/* ---- How-to cards ---- */
+.how-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 26px 22px;
+}
+.how-card h3 { margin-bottom: 12px; }
+.how-card ol { margin: 0; padding-left: 20px; color: var(--text-dim); }
+.how-card ol li { margin-bottom: 6px; line-height: 1.5; }
+.how-card ol li::marker { color: var(--accent-soft); font-weight: 700; }
+.how-card strong { color: var(--text); }
+.how-foot { margin-top: 36px; text-align: center; color: var(--text-dim); font-size: 0.95rem; max-width: 880px; margin-left: auto; margin-right: auto; }
+
+/* ---- Comparison table ---- */
+.compare-wrap { overflow-x: auto; margin: 0 auto; max-width: 100%; }
+.compare {
+  width: 100%; min-width: 640px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+.compare th, .compare td {
+  padding: 14px 18px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-soft);
+}
+.compare thead th {
+  background: var(--bg-3);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+.compare tbody th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--text);
+  background: transparent;
+}
+.compare tbody tr:last-child th,
+.compare tbody tr:last-child td { border-bottom: 0; }
+.compare th.hi, .compare td.hi {
+  background: rgba(255, 69, 58, 0.08);
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+.compare thead th.hi { background: rgba(255, 69, 58, 0.18); color: #fff; }
+.compare td { color: var(--text-dim); }
+.why-foot { margin-top: 28px; text-align: center; color: var(--text-faint); font-size: 0.92rem; }
+.why-foot a { color: var(--accent-soft); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- Tech grid ---- */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) { .tech-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .tech-grid { grid-template-columns: 1fr; } }
+
+.tech-card {
+  display: block;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+}
+.tech-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 69, 58, 0.4);
+  background: var(--bg-3);
+}
+.tech-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.tech-card h3 { margin: 0; font-size: 1.05rem; }
+.tech-card p  { margin: 0; font-size: 0.92rem; }
+
+/* GitHub star badge — golden star + count, GitHub-style.
+   Explicit width/height attrs on the SVG (in markup) prevent browser fallback to the
+   24×24 intrinsic viewBox size when CSS resolves late, which was making the star
+   appear inflated on desktop while looking fine on mobile. */
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffcd3c;
+  flex-shrink: 0;
+  white-space: nowrap;
+  line-height: 1;
+}
+.stars svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.tech-foot { margin-top: 32px; text-align: center; font-size: 0.9rem; color: var(--text-faint); }
+.tech-foot a { color: var(--accent-soft); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- FAQ ---- */
+.faq-list { display: grid; gap: 12px; }
+.faq-item {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.faq-item:hover { border-color: rgba(255, 255, 255, 0.14); }
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 24px;
+  font-weight: 600; font-size: 1.05rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.5rem; font-weight: 400;
+  color: var(--text-dim);
+  transition: transform 0.2s;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); color: var(--accent-soft); }
+.faq-item p {
+  margin: 0; padding: 0 24px 22px;
+  color: var(--text-dim);
+}
+.faq-item a { color: var(--accent-soft); text-decoration: underline; text-underline-offset: 3px; }
+.faq-item code { font-size: 0.85em; }
+
+/* ---- Final CTA ---- */
+.cta h2 { margin-bottom: 16px; }
+.cta p  { font-size: 1.1rem; margin-bottom: 28px; }
+.cta-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+
+/* Mobile: final-CTA pair stacks into one column, two rows, centered horizontally. */
+@media (max-width: 760px) {
+  .cta-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cta-row .btn {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 48px 0 40px;
+  background: var(--bg);
+}
+.footer-inner { display: grid; gap: 20px; }
+.footer-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 700; color: var(--text);
+}
+.footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
+.footer-links a { color: var(--text-dim); font-size: 0.92rem; transition: color 0.15s; }
+.footer-links a:hover { color: var(--text); }
+.footer-fine { margin: 0; font-size: 0.85rem; color: var(--text-faint); max-width: 780px; }
+.footer-contact {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-dim);
+}
+.footer-contact a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 4px;
+}
+.footer-contact a:hover { color: var(--accent); }
+
+/* ---- Motion reduction ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}

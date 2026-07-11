@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://freetube.io/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://freetube.io/og-image.jpg</image:loc>
+      <image:title>FreeTube, a native YouTube client for iPhone and iPad</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://freetube.io/screenshots/05_player_dj_silviu_intro.jpg</image:loc>
+      <image:title>FreeTube full-screen video player</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://freetube.io/screenshots/07_library_account_andrew_breus.jpg</image:loc>
+      <image:title>FreeTube Library tab with YouTube account signed in</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://freetube.io/screenshots/11_link_preview_instagram_reel.jpg</image:loc>
+      <image:title>FreeTube universal downloader preview screen</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://freetube.io/#features</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://freetube.io/#screenshots</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://freetube.io/#install</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freetube.io/#how-to-download</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://freetube.io/#why</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://freetube.io/#tech</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://freetube.io/#faq</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>

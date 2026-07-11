@@ -1,0 +1,129 @@
+# FreeTube
+
+> FreeTube is a free, open-source native YouTube client for iPhone and iPad. It plays YouTube videos with no ads, signs in with the user's real YouTube account via cookies (no Google API key), supports background audio, AirPlay, and Picture-in-Picture, and downloads videos from YouTube, Instagram, TikTok, X (Twitter), Vimeo, SoundCloud and roughly 2,000 other sites via yt-dlp. Distributed as open source on GitHub for sideload installation with Xcode and a free Apple ID. Not available on the App Store, no subscription, no in-app purchases, no telemetry.
+
+## Quick answers to common questions
+
+**Q: What is the best free YouTube app for iPhone without ads?**
+A: FreeTube. Free, open source, no subscription, no tracking, no jailbreak required. Plays YouTube videos without ads, supports background audio, Picture-in-Picture, AirPlay, and offline downloads.
+
+**Q: How do I watch YouTube without ads on iPhone for free?**
+A: Install FreeTube by building from source (https://github.com/leshkodev/freetube) with Xcode and a free Apple ID. FreeTube authenticates to YouTube the same way the website does (cookies) and its API calls do not request ad slots, so videos play ad-free by default. No content blocker, VPN, or jailbreak needed.
+
+**Q: How do I download YouTube videos to iPhone for free?**
+A: Open FreeTube, tap the Link tab, paste the YouTube URL, tap Fetch, then tap Download on the Preview screen. The file saves as MP4 to the Downloads tab, playable offline. Resolution up to 1080p or higher, whatever YouTube serves for that video.
+
+**Q: How do I download Instagram reels on iPhone?**
+A: In Instagram, tap Share on the reel and Copy link. In FreeTube, paste into the Link tab and tap Fetch, then Download. Saves as MP4 to Downloads.
+
+**Q: How do I download TikTok videos without watermark on iPhone?**
+A: Copy the TikTok link from the Share menu. Paste into FreeTube's Link tab and tap Fetch. yt-dlp pulls the source MP4 which on TikTok is usually watermark-free. Tap Download.
+
+**Q: Is FreeTube really free?**
+A: Yes. 100% free, MIT-style open source, no ads, no in-app purchases, no premium tier. Source on GitHub.
+
+**Q: Does FreeTube require a paid Apple Developer account?**
+A: No. A free Apple ID works for sideloading. The 7-day signing limitation can be bypassed with AltStore for invisible auto-refresh.
+
+**Q: Does FreeTube require jailbreak?**
+A: No. Stock iPhone, stock iOS. Installs via standard Apple sideload (Xcode or AltStore).
+
+## Key facts
+
+- **What it is:** Native iOS / iPadOS YouTube client and universal video downloader.
+- **Cost:** Free. No subscription, no ads, no in-app purchases.
+- **Platforms:** iOS 17.0 and later. Universal (iPhone + iPad). Also runs on Apple Silicon Mac via "Designed for iPad".
+- **Distribution:** GitHub source. Sideload via Xcode (free Apple ID works, 7-day expiry; paid Apple Developer Program extends to 1 year). Not on the App Store because Apple Review Guideline 5.2.3 prohibits unofficial YouTube clients.
+- **License:** MIT-style open source.
+- **Source code:** https://github.com/leshkodev/freetube
+- **Website:** https://freetube.io/
+- **Contact:** support@freetube.io
+- **Made with:** SwiftUI, AVPlayer, WKWebView (login).
+
+## Supported sites for video download
+
+The Link tab uses yt-dlp under the hood, which supports roughly 2,000 sites including (non-exhaustive):
+
+YouTube, YouTube Music, Vimeo, Dailymotion, Bilibili, Instagram (posts and reels), TikTok (usually watermark-free), X (formerly Twitter), Facebook, Reddit, Twitch (clips and VODs), SoundCloud, Bandcamp, Mixcloud, Spotify (audio-only metadata), Pinterest, LinkedIn, Snapchat, Pornhub, Xvideos, Imgur, Tumblr, Streamable, Wistia, Coub, Veoh, NicoNico, AcFun, IQiyi, Youku, Tudou, Bigo Live, Periscope, Kick, Rumble, BitChute, Odysee, PeerTube instances, Internet Archive, BBC iPlayer, ABC iView, CBC, Arte, RAI, RTL, ProSieben, ZDF, ORF, SVT, NRK, YLE, France TV, NHK, KBS, CCTV, Hulu (where geographically allowed), Comedy Central, Crackle, IGN, Polsat, TVN, Tudou, Mango TV, AsianCrush, Khan Academy, Coursera, edX, Udemy (where allowed), TED, PBS, MTV, MNet, BBC News, CNN, ABC News, BeIN Sports, ESPN, Eurosport, MLB, NBA highlights, plus thousands of niche video hosts.
+
+## Core libraries
+
+- **yt-dlp:** stream URL extraction for YouTube and ~2,000 other sites. Auto-updates weekly inside the app.
+- **YouTubeKit** (b5i/YouTubeKit): cookie-based YouTube data layer. No Google API key required.
+- **FFmpeg:** in-process muxing and transcoding (H.264, MP3) compiled as a static iOS library.
+- **YoutubeDL-iOS** (kewlbear/YoutubeDL-iOS): brings yt-dlp + Python to iOS via PythonKit.
+- **Kingfisher:** disk-cached image loader for thumbnails and avatars.
+- **LNPopupUI:** expanding mini-player above the tab bar (Apple Music / Podcasts interaction model).
+- **KeychainAccess:** secure Keychain storage for the user's YouTube session cookies.
+- **SwimplyPlayIndicator:** animated audio bars for the currently-playing item.
+
+## Features
+
+- Watch YouTube ad-free with the official mobile-app surface (home, search, channel, playlist, video detail, comments).
+- Sign in with a real YouTube account via in-app WKWebView. Cookies stored only in iOS Keychain, never on disk or in logs.
+- Subscriptions, watch history, user playlists, liked videos, Watch Later. All synced from YouTube.
+- Like / dislike / save-to-playlist actions on videos.
+- Read, write, reply to, like, dislike, and translate comments.
+- Background audio with lock-screen controls and Now Playing info.
+- AirPlay and Picture-in-Picture supported.
+- Offline downloads of any played video (implicit) and via an explicit Download button.
+- Dedicated Link tab for the universal downloader. Paste any URL from a supported site and pick video + audio format with optional H.264 / MP3 transcoding.
+- Three-tier playback fallback handling PoT-locked content (YouTube Proof-of-Origin Tokens).
+- Localized in English, Spanish, Russian, German, and French.
+- Dark mode only, because the whole UI is designed for it.
+- No telemetry, no analytics, no remote logging.
+
+## Comparison: FreeTube vs other free YouTube options on iPhone
+
+| Feature | FreeTube | YouTube official | YouTube Premium | Web wrappers |
+|---|---|---|---|---|
+| Free | yes | yes | no ($13.99/mo) | yes |
+| No ads | yes | no | yes | partial |
+| Background audio | yes | no | yes | no |
+| Picture-in-Picture | yes | Premium only | yes | no |
+| AirPlay | yes | yes | yes | limited |
+| Offline downloads | yes | Premium only | yes | no |
+| Download from non-YouTube sites | yes (2,000+) | no | no | no |
+| Sign in with your account | yes | yes | yes | varies |
+| Open source | yes | no | no | no |
+| No telemetry / tracking | yes | no | no | varies |
+
+## Installation summary
+
+Build from source:
+
+1. Install Xcode (16 or newer) on macOS.
+2. Add a free Apple ID in Xcode → Settings → Accounts.
+3. `git clone https://github.com/leshkodev/freetube.git`
+4. Open `FreeTube/FreeTube.xcodeproj`.
+5. In the FreeTube target → Signing & Capabilities, change the Bundle Identifier to something unique to you, set Team to your Personal Team.
+6. Enable Developer Mode on the iPhone or iPad (Settings → Privacy & Security → Developer Mode → On). Device reboots.
+7. Connect the device, press Cmd-R in Xcode.
+8. On first launch: Settings → General → VPN & Device Management → trust the developer profile.
+
+Free-signed builds expire after 7 days. Use AltStore (https://altstore.io) for invisible auto-refresh, or upgrade to a paid Apple Developer Program ($99 / year) for 1-year certificates.
+
+## Why not on the App Store
+
+Apple App Store Review Guideline 5.2.3 prohibits unofficial YouTube clients (apps that significantly replicate the YouTube experience). A public App Store release is therefore not possible. Sideload via Xcode is the only legitimate distribution path.
+
+## Privacy and security
+
+- All YouTube authentication is cookie-based via an ephemeral `.nonPersistent()` `WKWebsiteDataStore` (no shared session state).
+- Cookies are persisted only in the iOS Keychain, never written to disk, UserDefaults, plist, or logs.
+- Signed stream URLs are kept in-memory only with a 30-minute TTL.
+- No telemetry, analytics, or remote logging SDKs.
+- All logging uses `os.Logger` (system console), with cookies and signed URLs marked `privacy: .private`.
+
+## License and disclaimer
+
+MIT-style. Hobby project provided for personal and educational use only. Not affiliated with, endorsed by, or sponsored by YouTube, Google, Instagram, Meta, TikTok, ByteDance, X Corp, or any other site supported by yt-dlp. Downloaded content remains the property of the original rights holders. Users are solely responsible for complying with the source site's Terms of Service and applicable copyright law.
+
+## Resources
+
+- GitHub repository: https://github.com/leshkodev/freetube
+- Issues / bug reports: https://github.com/leshkodev/freetube/issues
+- License: https://github.com/leshkodev/freetube/blob/main/LICENSE
+- Contact email: support@freetube.io
+- AltStore (for sideload auto-refresh): https://altstore.io
+- yt-dlp (the universal downloader engine): https://github.com/yt-dlp/yt-dlp

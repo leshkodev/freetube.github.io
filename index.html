@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+
+<title>FreeTube · Free YouTube Client for iPhone & iPad · Ad-Free + Downloads</title>
+<meta name="description" content="FreeTube is a free, open-source YouTube client for iPhone and iPad. Watch YouTube without ads, sign in with your account, download videos from YouTube, Instagram, TikTok, X/Twitter and 2,000+ other sites. Background audio, AirPlay, Picture-in-Picture, offline playback. Free forever, sideload with Xcode and a free Apple ID.">
+<meta name="keywords" content="free youtube client iphone, youtube no ads iphone, youtube downloader iphone, download youtube videos iphone free, ad free youtube ios, youtube background play iphone, instagram reel downloader iphone, tiktok downloader iphone no watermark, twitter video downloader iphone, freetube, open source youtube app ios, sideload youtube ipa, yt-dlp ios, swiftui youtube, freetube ios, newpipe ios alternative">
+<meta name="author" content="FreeTube">
+<link rel="canonical" href="https://freetube.io/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://freetube.io/">
+<meta property="og:title" content="FreeTube · Free YouTube Client for iPhone & iPad · Ad-Free + Downloads">
+<meta property="og:description" content="Free, open-source YouTube client for iPhone and iPad. Watch YouTube without ads, download videos from YouTube, Instagram, TikTok, X and 2,000+ sites. Background audio, AirPlay, PiP. Sideload with a free Apple ID.">
+<meta property="og:image" content="https://freetube.io/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="FreeTube, a native YouTube client for iPhone and iPad. Open source.">
+<meta property="og:site_name" content="FreeTube">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FreeTube · Free YouTube Client for iPhone, Ad-Free + Downloads">
+<meta name="twitter:description" content="Free, open-source iPhone YouTube app. Watch without ads, download from YouTube, Instagram, TikTok, X and 2,000+ sites. Sideload with a free Apple ID.">
+<meta name="twitter:image" content="https://freetube.io/og-image.jpg">
+<meta name="twitter:image:alt" content="FreeTube, a native YouTube client for iPhone and iPad. Open source.">
+
+<!-- Favicon + Apple touch icon (PNG for compat with iOS home-screen / Apple platforms) -->
+<link rel="icon" type="image/svg+xml" href="/icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<!-- Preconnect to GitHub for the download/contribute buttons -->
+<link rel="preconnect" href="https://github.com">
+
+<!-- Schema.org: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "FreeTube",
+  "operatingSystem": "iOS 17.0",
+  "applicationCategory": "MultimediaApplication",
+  "applicationSubCategory": "Video Player",
+  "description": "Native SwiftUI YouTube client for iPhone and iPad. Cookie-based authentication, AVPlayer playback, background audio, AirPlay, Picture-in-Picture, and offline downloads from ~2,000 sites via yt-dlp. Open source.",
+  "url": "https://freetube.io/",
+  "downloadUrl": "https://github.com/leshkodev/freetube",
+  "installUrl": "https://github.com/leshkodev/freetube",
+  "softwareVersion": "1.0",
+  "datePublished": "2026-05-25",
+  "inLanguage": ["en", "es", "ru", "de", "fr"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "license": "https://github.com/leshkodev/freetube/blob/main/LICENSE",
+  "isAccessibleForFree": true,
+  "author": {
+    "@type": "Organization",
+    "name": "FreeTube",
+    "url": "https://freetube.io/",
+    "email": "support@freetube.io"
+  },
+  "featureList": [
+    "Ad-free YouTube playback",
+    "Background audio with lock-screen controls",
+    "AirPlay and Picture-in-Picture support",
+    "Offline downloads via yt-dlp",
+    "Universal downloader for ~2,000 sites",
+    "Sign in with YouTube account",
+    "Subscriptions, history, playlists, liked videos, watch later",
+    "Comments and likes",
+    "No Google API key required",
+    "Localized in English, Spanish, Russian, German, French"
+  ]
+}
+</script>
+
+<!-- Schema.org: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is FreeTube really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. FreeTube is 100% free and open source under an MIT-style license. There are no ads, no tracking, no in-app purchases, no premium tier. The source code is published on GitHub and you build the app yourself."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which sites can I download from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Link tab supports every site that yt-dlp can extract, roughly 2,000 today. That includes YouTube, Vimeo, X/Twitter, TikTok, Instagram, SoundCloud, Reddit, Twitch, Dailymotion, Bilibili, and many more. yt-dlp updates automatically every 7 days inside the app so new sites and fixes arrive without rebuilding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a paid Apple Developer account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A free Apple ID is enough to sideload FreeTube to your own iPhone or iPad via Xcode. The catch is that free-signed builds expire after 7 days and have to be re-installed. The paid Apple Developer Program ($99 a year) extends that to 1 year and removes the device-count cap, but it isn't required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my YouTube account get banned?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FreeTube authenticates the same way the YouTube website does, via cookies captured from an in-app WKWebView. There is no public Google API key, no automation that simulates human input, no scraping at a rate above normal browsing. We have no evidence of bans, but YouTube can change their policy at any time. Sign in with caution and use a secondary account if you want to be safe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does FreeTube work on iPad?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. FreeTube is a universal app. iPhone and iPad share the same binary. The layout adapts to wider screens and the popup player remains pinned above the tab bar on both."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on Mac?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, via Apple's 'Designed for iPad' runtime on Apple Silicon Macs (M1 and newer). Just build for the Mac destination in Xcode. There are extra keyboard shortcuts and a menu-bar Reveal-in-Finder integration for the Mac runtime. Mac Catalyst is not currently supported because FreeTube depends on iOS-only Python and FFmpeg slices."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the app expire after 7 days?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That is an Apple-imposed restriction on free Apple Developer accounts, not something FreeTube controls. Free-signed provisioning profiles are valid for 7 days. Tools like AltStore can auto-resign and re-install in the background to make the limit invisible. With a paid $99/year developer account the certificate is valid for a full year."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I sign in with my YouTube account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Library tab presents a 'Sign in to YouTube' button that opens the real YouTube login inside an in-app WebView. Once you complete sign-in, FreeTube captures the session cookies, stores them in the iOS Keychain (never on disk or in any log), and uses them to fetch your subscriptions, history, playlists, liked videos, and Watch Later. Sign out wipes the Keychain immediately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What formats can I download?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Whatever yt-dlp exposes for the source video. The Preview screen lets you pick a video format (resolution and codec, typically up to 1080p or higher when YouTube serves it) and an audio format separately, with optional on-device transcoding to H.264 for Apple-friendly playback and to MP3 for audio-only saves. Conversion runs in-process via FFmpeg with no network round trip."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is FreeTube on the App Store?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. FreeTube is for personal use and sideloading only. Apple's App Store guidelines (specifically rule 5.2.3) prohibit unofficial YouTube clients, so a public App Store release isn't possible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the best free YouTube app for iPhone without ads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FreeTube is the leading free, open-source YouTube client for iPhone that plays videos without any ads. Unlike YouTube Premium (which costs $13.99/month) it has no subscription, no in-app purchases, and no tracking. Background audio, Picture-in-Picture, AirPlay, offline downloads and YouTube account sign-in all work, and it's fully native SwiftUI rather than a web wrapper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I watch YouTube without ads on iPhone for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Install FreeTube on your iPhone via Xcode and a free Apple ID. Because FreeTube uses YouTubeKit (a cookie-based YouTube data layer that doesn't request ads in its API calls), every video plays ad-free by default. No content blocker, VPN, or jailbreak is required, and there's no subscription cost."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I download YouTube videos to my iPhone for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open FreeTube, tap the Link tab, paste the YouTube video URL, tap Fetch, then tap Download on the Preview screen. The video saves to the Downloads tab as a local MP4, playable offline with no time limit. Up to 1080p and higher is available wherever YouTube serves it. The same flow works for Instagram, TikTok, X (formerly Twitter), Vimeo, SoundCloud, Reddit, Twitch and roughly 2,000 other sites."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I download Instagram reels on iPhone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tap Share on the reel in Instagram and choose Copy link. Open FreeTube, switch to the Link tab and paste the URL. Tap Fetch then Download. The reel saves as MP4 to the Downloads tab and can be played offline. You do not need an Instagram account to watch the saved file."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I download TikTok videos without watermark on iPhone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Copy the TikTok video link from the Share menu. Paste it into the Link tab in FreeTube and tap Fetch. yt-dlp pulls the underlying source MP4, which on TikTok is usually the watermark-free original. Tap Download to save it locally."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does FreeTube require jailbreak?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. FreeTube does not require a jailbroken iPhone. It installs through standard Apple sideload tooling: Xcode on a Mac, or AltStore for ongoing wireless re-signing. Your iPhone stays fully stock and you keep system updates."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Schema.org: HowTo for downloading a YouTube video on iPhone -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to download YouTube videos on iPhone for free",
+  "description": "Step-by-step guide to download YouTube videos to an iPhone using the free, open-source FreeTube app. No subscription, no ads, no watermark.",
+  "totalTime": "PT2M",
+  "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "0" },
+  "supply": [
+    { "@type": "HowToSupply", "name": "iPhone or iPad on iOS 17 or later" },
+    { "@type": "HowToSupply", "name": "FreeTube app (sideloaded via Xcode)" }
+  ],
+  "tool": [
+    { "@type": "HowToTool", "name": "FreeTube" }
+  ],
+  "step": [
+    { "@type": "HowToStep", "name": "Copy the YouTube video URL", "text": "Open the YouTube app or Safari, tap Share on the video, then choose Copy link." },
+    { "@type": "HowToStep", "name": "Open the Link tab in FreeTube", "text": "Launch FreeTube and switch to the Link tab from the bottom bar." },
+    { "@type": "HowToStep", "name": "Paste the URL and tap Fetch", "text": "Paste the copied URL into the field and tap Fetch. FreeTube probes the video via yt-dlp." },
+    { "@type": "HowToStep", "name": "Pick a format on the Preview screen", "text": "Choose a video resolution and audio format. Optionally enable H.264 or MP3 transcoding." },
+    { "@type": "HowToStep", "name": "Tap Download", "text": "The file downloads to the Downloads tab. Tap to play it offline anytime." }
+  ]
+}
+</script>
+
+<!-- Schema.org: HowTo for downloading an Instagram reel -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to download an Instagram reel on iPhone for free",
+  "description": "Save Instagram reels as MP4 to your iPhone using the free, open-source FreeTube app. No Instagram account required to watch them offline.",
+  "totalTime": "PT2M",
+  "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "0" },
+  "step": [
+    { "@type": "HowToStep", "name": "Copy the reel link", "text": "In the Instagram app, tap the Share icon on the reel and choose Copy link." },
+    { "@type": "HowToStep", "name": "Paste into FreeTube Link tab", "text": "Open FreeTube, switch to the Link tab and paste the URL." },
+    { "@type": "HowToStep", "name": "Fetch and download", "text": "Tap Fetch, then Download on the Preview screen. The reel saves as MP4 in the Downloads tab." }
+  ]
+}
+</script>
+
+<!-- Schema.org: HowTo for downloading a TikTok video without watermark -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to download a TikTok video without watermark on iPhone",
+  "description": "Save TikTok videos to your iPhone (usually watermark-free) using the free, open-source FreeTube app.",
+  "totalTime": "PT2M",
+  "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "0" },
+  "step": [
+    { "@type": "HowToStep", "name": "Copy the TikTok link", "text": "Tap Share on the TikTok and choose Copy link." },
+    { "@type": "HowToStep", "name": "Paste into FreeTube Link tab", "text": "Open FreeTube, go to the Link tab and paste." },
+    { "@type": "HowToStep", "name": "Fetch and download", "text": "Tap Fetch. yt-dlp pulls the source MP4 (usually the watermark-free version). Tap Download to save." }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== Header / Nav ===== -->
+<header class="site-header" role="banner">
+  <nav class="nav" aria-label="Primary">
+    <a href="#top" class="brand" aria-label="FreeTube home">
+      <img src="icon.svg" alt="" class="brand-icon" width="32" height="32">
+      <span class="brand-name">FreeTube</span>
+    </a>
+    <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#screenshots">Screenshots</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#how-to-download">Downloads</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://github.com/leshkodev/freetube" class="nav-cta" rel="noopener" target="_blank">GitHub →</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ===== Hero ===== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow"><span class="dot"></span>Free forever · Open source · iOS 17+</p>
+      <h1 id="hero-title">The free <span class="grad">YouTube</span>&nbsp;client<br>for <span class="grad">iPhone</span> and <span class="grad">iPad</span></h1>
+      <ul class="hero-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8.2 12.5l2.6 2.6 4.8-5.8"/>
+          </svg>
+          <span><strong>Watch YouTube without ads</strong> on iPhone and iPad</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8.2 12.5l2.6 2.6 4.8-5.8"/>
+          </svg>
+          <span>Sign in with your YouTube account, sync subscriptions and history</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8.2 12.5l2.6 2.6 4.8-5.8"/>
+          </svg>
+          <span><strong>Download videos</strong> from YouTube, Instagram, TikTok, X, Vimeo and <strong>2,000+ more sites</strong></span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8.2 12.5l2.6 2.6 4.8-5.8"/>
+          </svg>
+          <span>Background audio, AirPlay, Picture-in-Picture, offline playback. No Google API key, no telemetry, no paid tier</span>
+        </li>
+      </ul>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#install">
+          <svg viewBox="0 0 64 64" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M 32 6 C 30.896 6 30 6.896 30 8 L 30 26.195312 L 26.419922 22.589844 C 25.642922 21.806844 24.374797 21.802078 23.591797 22.580078 C 22.807797 23.359078 22.802078 24.624203 23.580078 25.408203 L 30.580078 32.458984 C 30.955078 32.836984 31.467 33.050781 32 33.050781 C 32.533 33.050781 33.044922 32.836984 33.419922 32.458984 L 40.419922 25.408203 C 41.197922 24.624203 41.192203 23.358078 40.408203 22.580078 C 39.625203 21.801078 38.357078 21.805844 37.580078 22.589844 L 34 26.195312 L 34 8 C 34 6.896 33.104 6 32 6 z M 21 11 C 16.59 11 13 14.59 13 19 L 13 45 C 13 49.411 16.589 53 21 53 L 43 53 C 47.411 53 51 49.411 51 45 L 51 19 C 51 14.59 47.41 11 43 11 L 37 11 L 37 15 L 43 15 C 45.21 15 47 16.79 47 19 L 47 38.082031 C 45.821713 37.398 44.457683 37 43 37 L 21 37 C 19.542317 37 18.178287 37.398 17 38.082031 L 17 19 C 17 16.79 18.79 15 21 15 L 27 15 L 27 11 L 21 11 z M 21 41 L 43 41 C 45.206 41 47 42.794 47 45 C 47 47.206 45.206 49 43 49 L 21 49 C 18.794 49 17 47.206 17 45 C 17 42.794 18.794 41 21 41 z"/></svg>
+          How to install
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/leshkodev/freetube" rel="noopener" target="_blank">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.54-3.87-1.54-.52-1.34-1.27-1.69-1.27-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.95.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+          Source on GitHub
+        </a>
+      </div>
+      <ul class="hero-badges" aria-label="Highlights">
+        <li>
+          <svg class="sf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          No ads
+        </li>
+        <li>
+          <svg class="sf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12s3.5-7 9-7c2.3 0 4.3.8 6 2"/>
+            <path d="M21 12s-3.5 7-9 7c-2.3 0-4.3-.8-6-2"/>
+            <circle cx="12" cy="12" r="2.5"/>
+            <line x1="4" y1="4" x2="20" y2="20"/>
+          </svg>
+          No tracking
+        </li>
+        <li>
+          <svg class="sf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="8.5" cy="15.5" r="3"/>
+            <path d="M10.7 13.3l8.3-8.3"/>
+            <path d="M16 8l3 3"/>
+            <path d="M14 6l3 3"/>
+            <line x1="4" y1="4" x2="20" y2="20"/>
+          </svg>
+          No API key
+        </li>
+        <li>
+          <svg class="sf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7.5v9"/>
+            <path d="M8 12.5l4 4 4-4"/>
+          </svg>
+          Offline downloads
+        </li>
+      </ul>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="hero-phone hero-phone--back">
+        <img src="screenshots/07_library_account_andrew_breus.jpg" alt="Library" loading="eager" width="260" height="563">
+      </div>
+      <div class="hero-phone hero-phone--front">
+        <img src="screenshots/05_player_dj_silviu_intro.jpg" alt="Full-screen player" loading="eager" width="260" height="563">
+      </div>
+      <div class="hero-phone hero-phone--side">
+        <img src="screenshots/01_search_recent_dark_gentleman.jpg" alt="Search" loading="eager" width="260" height="563">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Features ===== -->
+<section id="features" class="features" aria-labelledby="features-title">
+  <div class="container">
+    <h2 id="features-title" class="section-title">Everything the official app does, plus what it doesn't.</h2>
+    <p class="section-lead">FreeTube replicates the YouTube mobile app surface but removes the ads, the tracking, and the App-Store-only restrictions. Then it adds a universal downloader on top.</p>
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="3.5"/>
+            <path d="M10 9.2v5.6l5-2.8z" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <h3>Watch</h3>
+        <p>Home feed, trending, search with autocomplete, channel pages, playlists, recommendations, comments, likes, dislikes, replies, translations.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="10" r="3"/>
+            <path d="M5.8 19a7 7 0 0 1 12.4 0"/>
+          </svg>
+        </div>
+        <h3>Sign&nbsp;in &amp; sync</h3>
+        <p>Sign in with your YouTube account via a real in-app browser. Subscriptions, watch history, your playlists, liked videos and Watch Later all sync.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v13"/>
+            <path d="M7 11l5 5 5-5"/>
+            <path d="M4 21h16"/>
+          </svg>
+        </div>
+        <h3>Download</h3>
+        <p>Offline copies of any video you play. Plus a dedicated <em>Link</em> tab for ~2,000 yt-dlp-supported sites: Instagram, TikTok, X, Vimeo, SoundCloud.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 15v-3a9 9 0 0 1 18 0v3"/>
+            <path d="M3 15v3a2 2 0 0 0 2 2h1.5v-7H5a2 2 0 0 0-2 2z"/>
+            <path d="M21 15v3a2 2 0 0 1-2 2h-1.5v-7H19a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h3>Background audio</h3>
+        <p>Lock-screen controls, AirPlay, Picture-in-Picture, system Now Playing. Music keeps playing when you switch apps or turn off the screen.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l8 3v5.2c0 4.8-3.4 8.2-8 9.8-4.6-1.6-8-5-8-9.8V6z"/>
+            <rect x="9.3" y="11.2" width="5.4" height="4.8" rx="1.1"/>
+            <path d="M10.4 11.2v-1.6a1.6 1.6 0 0 1 3.2 0v1.6"/>
+          </svg>
+        </div>
+        <h3>Private by design</h3>
+        <p>No telemetry, no remote logging, no third-party SDKs. Cookies live only in the iOS Keychain. Stream URLs are in-memory and expire in 30 minutes.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <ellipse cx="12" cy="12" rx="4" ry="9"/>
+            <path d="M3 12h18"/>
+          </svg>
+        </div>
+        <h3>Localized</h3>
+        <p>Fully translated in English, Spanish, Russian, German, and French via Apple's String Catalog. Dark mode only, because the whole app is designed for it.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Screenshots ===== -->
+<section id="screenshots" class="screenshots" aria-labelledby="shots-title">
+  <div class="container">
+    <h2 id="shots-title" class="section-title">A look inside the app.</h2>
+    <p class="section-lead">Screenshots from iPhone 17 Pro on iOS 26. The app is dark-only by design.</p>
+    <div class="shot-grid">
+      <figure class="shot">
+        <img src="screenshots/01_search_recent_dark_gentleman.jpg" loading="lazy" alt="FreeTube Search tab with recent queries and a video result" width="1290" height="2796">
+        <figcaption><strong>Search</strong> · recents pinned above the home feed</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/03_search_results_dance_music.jpg" loading="lazy" alt="Search results list showing dance music videos" width="1290" height="2796">
+        <figcaption><strong>Results</strong> · videos, playlists, channels</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/06_player_controls_club_mix.jpg" loading="lazy" alt="Native AVPlayer transport controls overlaid on a music video" width="1290" height="2796">
+        <figcaption><strong>System controls</strong> · scrubber, PiP, AirPlay</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/04_player_downloading_video.jpg" loading="lazy" alt="Player showing yt-dlp download progress at 7%" width="1290" height="2796">
+        <figcaption><strong>Live download</strong> · yt-dlp progress before playback</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/07_library_account_andrew_breus.jpg" loading="lazy" alt="Library tab signed in showing playlists and liked videos" width="1290" height="2796">
+        <figcaption><strong>Library</strong> · history, playlists, liked, Watch Later</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/13_downloads_saved_videos.jpg" loading="lazy" alt="List of videos saved on device for offline playback" width="1290" height="2796">
+        <figcaption><strong>Downloads</strong> · offline-playable saved videos</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/08_downloads_transfer_queue.jpg" loading="lazy" alt="Active download transfer queue with progress bar" width="1290" height="2796">
+        <figcaption><strong>Transfer queue</strong> · live progress and cancel</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/11_link_preview_instagram_reel.jpg" loading="lazy" alt="Format picker for an Instagram reel with video and audio options" width="1290" height="2796">
+        <figcaption><strong>Universal downloader</strong> · pick format + transcode</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Install ===== -->
+<section id="install" class="install" aria-labelledby="install-title">
+  <div class="container">
+    <h2 id="install-title" class="section-title">Install on your iPhone or iPad.</h2>
+    <p class="section-lead">No App Store. No paid Apple Developer account required. Sideload from source with a Mac, Xcode and a free Apple ID.</p>
+
+    <ol class="steps">
+      <li class="step">
+        <h3><span class="step-num">1</span>Install Xcode</h3>
+        <p>Download <a href="https://apps.apple.com/app/xcode/id497799835" rel="noopener" target="_blank">Xcode 16 or 26 from the Mac App Store</a>. The first launch takes a while, because it installs the iOS SDK in the background.</p>
+      </li>
+      <li class="step">
+        <h3><span class="step-num">2</span>Add your Apple ID to Xcode</h3>
+        <p>Xcode → Settings → Accounts → <em>+</em> → Apple ID. A <strong>Personal Team</strong> appears under your account. This is the free signing identity. No paid developer enrollment needed.</p>
+      </li>
+      <li class="step">
+        <h3><span class="step-num">3</span>Clone FreeTube</h3>
+<pre><code>git clone https://github.com/leshkodev/freetube.git
+cd freetube
+open FreeTube/FreeTube.xcodeproj</code></pre>
+      </li>
+      <li class="step">
+        <h3><span class="step-num">4</span>Change the bundle identifier</h3>
+        <p>In Xcode, select the <strong>FreeTube</strong> target → <em>Signing &amp; Capabilities</em> → set the Bundle Identifier to something unique to you (e.g. <code>com.yourname.freetube</code>). Set <em>Team</em> to your Personal Team.</p>
+      </li>
+      <li class="step">
+        <h3><span class="step-num">5</span>Plug in your iPhone or iPad</h3>
+        <p>Connect via USB (or pair wirelessly in Finder). On the device: Settings → Privacy &amp; Security → <strong>Developer Mode → On</strong>. The device reboots.</p>
+      </li>
+      <li class="step">
+        <h3><span class="step-num">6</span>Build &amp; run</h3>
+        <p>Pick your device from the Xcode destination dropdown and press <kbd>⌘R</kbd>. First time only: on the device, Settings → General → VPN &amp; Device Management → trust your developer profile.</p>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <h3>Heads-up: free Apple IDs are limited</h3>
+      <ul>
+        <li>Apps signed with a free Apple ID expire after <strong>7 days</strong>. After that, re-run from Xcode (or use <a href="https://altstore.io" rel="noopener" target="_blank">AltStore</a> to auto-refresh).</li>
+        <li>A single free Apple ID can sign at most <strong>3 different apps</strong> on a device at once.</li>
+        <li>None of the limits are something FreeTube controls. They apply to every free-signed app on iOS.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How to download (targets long-tail queries) ===== -->
+<section id="how-to-download" class="how-to" aria-labelledby="how-to-title">
+  <div class="container">
+    <h2 id="how-to-title" class="section-title">How to download YouTube, Instagram &amp; TikTok videos on iPhone for free.</h2>
+    <p class="section-lead">No subscription, no ads, no watermark. The Link tab inside FreeTube uses yt-dlp to pull videos directly from the source. Same flow for every supported site.</p>
+
+    <div class="grid grid-3">
+      <article class="how-card">
+        <h3>Download a YouTube video</h3>
+        <ol>
+          <li>Copy the video URL from the YouTube app or Safari.</li>
+          <li>Open FreeTube, switch to the <strong>Link</strong> tab.</li>
+          <li>Paste the URL and tap <strong>Fetch</strong>.</li>
+          <li>On the Preview screen, pick a video format (up to 1080p+) and tap <strong>Download</strong>.</li>
+          <li>The file lands in the <strong>Downloads</strong> tab, playable offline.</li>
+        </ol>
+      </article>
+      <article class="how-card">
+        <h3>Download an Instagram reel</h3>
+        <ol>
+          <li>In the Instagram app, tap the reel's <em>Share</em> icon and choose <em>Copy link</em>.</li>
+          <li>Open FreeTube → <strong>Link</strong> tab → paste.</li>
+          <li>Tap <strong>Fetch</strong>, then <strong>Download</strong> on the Preview screen.</li>
+          <li>Saved as MP4 in <strong>Downloads</strong>. Reels stay watchable without an Instagram account.</li>
+        </ol>
+      </article>
+      <article class="how-card">
+        <h3>Download a TikTok video (no watermark)</h3>
+        <ol>
+          <li>Tap <em>Share</em> on the TikTok and copy the link.</li>
+          <li>Open FreeTube → <strong>Link</strong> tab → paste.</li>
+          <li>Tap <strong>Fetch</strong>. yt-dlp grabs the source MP4, which on TikTok is usually the watermark-free version.</li>
+          <li>Tap <strong>Download</strong>. Plays offline from the Downloads tab.</li>
+        </ol>
+      </article>
+    </div>
+
+    <p class="how-foot">
+      The same three-step flow works for <strong>X (Twitter), Vimeo, SoundCloud, Reddit, Twitch, Dailymotion, Bilibili, Facebook</strong>, and roughly 2,000 other sites that yt-dlp supports. FreeTube auto-updates its bundled yt-dlp every 7 days so new sites and breakage fixes arrive without you rebuilding the app.
+    </p>
+  </div>
+</section>
+
+<!-- ===== Why FreeTube vs other YouTube apps ===== -->
+<section id="why" class="why" aria-labelledby="why-title">
+  <div class="container">
+    <h2 id="why-title" class="section-title">Why FreeTube over other YouTube apps for iPhone.</h2>
+    <p class="section-lead">Most "YouTube without ads" solutions on iOS fall into three buckets: paid (YouTube Premium), web wrappers, or browser-extension hacks. FreeTube is a real native app, free, and doesn't track you.</p>
+
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col" class="hi">FreeTube</th>
+            <th scope="col">YouTube official</th>
+            <th scope="col">YouTube Premium</th>
+            <th scope="col">Web wrappers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Free</th>          <td class="hi">✓</td><td>✓</td><td>$13.99/mo</td><td>✓</td></tr>
+          <tr><th scope="row">No ads</th>        <td class="hi">✓</td><td>✗</td><td>✓</td><td>partial</td></tr>
+          <tr><th scope="row">Background audio</th> <td class="hi">✓</td><td>✗</td><td>✓</td><td>✗</td></tr>
+          <tr><th scope="row">Picture-in-Picture</th> <td class="hi">✓</td><td>Premium only</td><td>✓</td><td>✗</td></tr>
+          <tr><th scope="row">AirPlay</th>       <td class="hi">✓</td><td>✓</td><td>✓</td><td>limited</td></tr>
+          <tr><th scope="row">Offline downloads</th> <td class="hi">✓</td><td>Premium only</td><td>✓</td><td>✗</td></tr>
+          <tr><th scope="row">Download from non-YouTube sites</th> <td class="hi">✓ (2,000+)</td><td>✗</td><td>✗</td><td>✗</td></tr>
+          <tr><th scope="row">Sign in with your account</th> <td class="hi">✓</td><td>✓</td><td>✓</td><td>varies</td></tr>
+          <tr><th scope="row">Open source</th>   <td class="hi">✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+          <tr><th scope="row">No telemetry / tracking</th> <td class="hi">✓</td><td>✗</td><td>✗</td><td>varies</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Tech stack ===== -->
+<section id="tech" class="tech" aria-labelledby="tech-title">
+  <div class="container">
+    <h2 id="tech-title" class="section-title">Built on open-source giants.</h2>
+    <p class="section-lead">FreeTube glues together a stack of battle-tested libraries. Nothing custom for things others do better. Full credit to the maintainers below.</p>
+    <div class="tech-grid">
+      <a class="tech-card" href="https://github.com/yt-dlp/yt-dlp" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>yt-dlp</h3>
+          <span class="stars" aria-label="165k GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            165k
+          </span>
+        </div>
+        <p>The download engine. Extracts stream URLs from YouTube and ~2,000 other sites. Runs in-process via PythonKit.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/b5i/YouTubeKit" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>YouTubeKit</h3>
+          <span class="stars" aria-label="126 GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            126
+          </span>
+        </div>
+        <p>Cookie-based YouTube data layer. Search, comments, playlists, subscriptions, likes, all without a Google API key.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/FFmpeg/FFmpeg" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>FFmpeg</h3>
+          <span class="stars" aria-label="60k GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            60k
+          </span>
+        </div>
+        <p>In-process video and audio muxing, transcoding to H.264 / MP3. Compiled as a static library for iOS.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/kewlbear/YoutubeDL-iOS" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>YoutubeDL-iOS</h3>
+          <span class="stars" aria-label="147 GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            147
+          </span>
+        </div>
+        <p>Brings yt-dlp + Python to iOS via PythonKit. Auto-updates the yt-dlp Python module weekly.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/onevcat/Kingfisher" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>Kingfisher</h3>
+          <span class="stars" aria-label="24k GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            24k
+          </span>
+        </div>
+        <p>Disk-cached image loader. Powers every thumbnail and channel avatar in the app.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/LeoNatan/LNPopupUI" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>LNPopupUI</h3>
+          <span class="stars" aria-label="598 GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            598
+          </span>
+        </div>
+        <p>The expanding mini-player above the tab bar. Same interaction model as Apple Music and Podcasts.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/kishikawakatsumi/KeychainAccess" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>KeychainAccess</h3>
+          <span class="stars" aria-label="8.2k GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            8.2k
+          </span>
+        </div>
+        <p>Secure Keychain wrapper for storing YouTube session cookies. Cookies never touch disk or any log.</p>
+      </a>
+      <a class="tech-card" href="https://github.com/obrhoff/SwimplyPlayIndicator" rel="noopener" target="_blank">
+        <div class="tech-card-head">
+          <h3>SwimplyPlayIndicator</h3>
+          <span class="stars" aria-label="72 GitHub stars">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            72
+          </span>
+        </div>
+        <p>The animated audio bars that mark the currently-playing item in the up-next queue.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" class="faq" aria-labelledby="faq-title">
+  <div class="container container-narrow">
+    <h2 id="faq-title" class="section-title">Frequently asked questions</h2>
+    <p class="section-lead">Couldn't find what you're looking for? <a href="https://github.com/leshkodev/freetube/issues" rel="noopener" target="_blank">Open an issue on GitHub</a> or email <a href="mailto:support@freetube.io">support@freetube.io</a>.</p>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Is FreeTube really free?</summary>
+        <p>Yes. FreeTube is 100% free and open source under an MIT-style license. There are no ads, no tracking, no in-app purchases, no premium tier. The source code is published on GitHub and you build the app yourself.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Which sites can I download from?</summary>
+        <p>The <em>Link</em> tab supports every site that yt-dlp can extract, roughly 2,000 today. That includes YouTube, Vimeo, X/Twitter, TikTok, Instagram, SoundCloud, Reddit, Twitch, Dailymotion, Bilibili, and many more. yt-dlp updates automatically every 7 days inside the app so new sites and fixes arrive without rebuilding.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need a paid Apple Developer account?</summary>
+        <p>No. A free Apple ID is enough to sideload FreeTube to your own iPhone or iPad via Xcode. The catch is that free-signed builds expire after 7 days and have to be re-installed. The paid Apple Developer Program ($99 a year) extends that to a full year and removes the device-count cap, but it isn't required.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Will my YouTube account get banned?</summary>
+        <p>FreeTube authenticates the same way the YouTube website does, via cookies captured from an in-app <code>WKWebView</code>. There is no public Google API key, no automation that simulates human input, no scraping at a rate above normal browsing. We have no evidence of bans, but YouTube can change their policy at any time. Sign in with caution and use a secondary account if you want to be safe.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does FreeTube work on iPad?</summary>
+        <p>Yes. FreeTube is a universal app. iPhone and iPad share the same binary. The layout adapts to wider screens and the popup player remains pinned above the tab bar on both.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it work on Mac?</summary>
+        <p>Yes, via Apple's "Designed for iPad" runtime on Apple Silicon Macs (M1 and newer). Just pick the Mac destination in Xcode and run. There are extra keyboard shortcuts and a menu-bar Reveal-in-Finder integration for the Mac runtime. Mac Catalyst is not currently supported because FreeTube depends on iOS-only Python and FFmpeg slices.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why does the app expire after 7 days?</summary>
+        <p>That's an Apple-imposed restriction on free Apple Developer accounts, not something FreeTube controls. Free-signed provisioning profiles are valid for 7 days. Tools like <a href="https://altstore.io" rel="noopener" target="_blank">AltStore</a> can auto-resign and re-install in the background to make the limit invisible. With a paid $99/year developer account the certificate is valid for a full year.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I sign in with my YouTube account?</summary>
+        <p>Yes. The Library tab presents a "Sign in to YouTube" button that opens the real YouTube login inside an in-app WebView. Once you complete sign-in, FreeTube captures the session cookies, stores them in the iOS Keychain (never on disk or in any log), and uses them to fetch your subscriptions, history, playlists, liked videos, and Watch Later. Sign out wipes the Keychain immediately.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What formats can I download?</summary>
+        <p>Whatever yt-dlp exposes for the source video. The Preview screen lets you pick a video format (resolution and codec, typically up to 1080p or higher when YouTube serves it) and an audio format separately, with optional on-device transcoding to H.264 for Apple-friendly playback and to MP3 for audio-only saves. Conversion runs in-process via FFmpeg with no network round trip.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is FreeTube on the App Store?</summary>
+        <p>No. FreeTube is for personal use and sideloading only. Apple's App Store guidelines (specifically rule 5.2.3) prohibit unofficial YouTube clients, so a public App Store release isn't possible.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the best free YouTube app for iPhone without ads?</summary>
+        <p>FreeTube is the leading free, open-source YouTube client for iPhone that plays videos without any ads. Unlike YouTube Premium (which costs $13.99/month) it has no subscription, no in-app purchases, and no tracking. Background audio, Picture-in-Picture, AirPlay, offline downloads and YouTube account sign-in all work, and it's fully native SwiftUI rather than a web wrapper.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I watch YouTube without ads on iPhone for free?</summary>
+        <p>Install FreeTube on your iPhone via Xcode and a free Apple ID. Because FreeTube uses YouTubeKit (a cookie-based YouTube data layer that doesn't request ads in its API calls), every video plays ad-free by default. No content blocker, VPN, or jailbreak is required, and there's no subscription cost.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I download YouTube videos to my iPhone for free?</summary>
+        <p>Open FreeTube, tap the <strong>Link</strong> tab, paste the YouTube video URL, tap <strong>Fetch</strong>, then tap <strong>Download</strong> on the Preview screen. The video saves to the Downloads tab as a local MP4, playable offline with no time limit. Up to 1080p and higher is available wherever YouTube serves it. The same flow works for Instagram, TikTok, X (formerly Twitter), Vimeo, SoundCloud, Reddit, Twitch and roughly 2,000 other sites.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I download Instagram reels on iPhone?</summary>
+        <p>Tap <em>Share</em> on the reel in Instagram and choose <em>Copy link</em>. Open FreeTube, switch to the <strong>Link</strong> tab and paste the URL. Tap <strong>Fetch</strong> then <strong>Download</strong>. The reel saves as MP4 to the Downloads tab and can be played offline. You do not need an Instagram account to watch the saved file.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I download TikTok videos without watermark on iPhone?</summary>
+        <p>Copy the TikTok video link from the Share menu. Paste it into the <strong>Link</strong> tab in FreeTube and tap <strong>Fetch</strong>. yt-dlp pulls the underlying source MP4, which on TikTok is usually the watermark-free original. Tap <strong>Download</strong> to save it locally.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does FreeTube require jailbreak?</summary>
+        <p>No. FreeTube does not require a jailbroken iPhone. It installs through standard Apple sideload tooling: Xcode on a Mac, or <a href="https://altstore.io" rel="noopener" target="_blank">AltStore</a> for ongoing wireless re-signing. Your iPhone stays fully stock and you keep system updates.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Final CTA ===== -->
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container container-narrow text-center">
+    <h2 id="cta-title">Ready to try it?</h2>
+    <p>The whole project lives on GitHub. Star it, fork it, file issues, send PRs. It's a hobby project that lives off contributions.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#install">Installation guide</a>
+      <a class="btn btn-ghost" href="https://github.com/leshkodev/freetube" rel="noopener" target="_blank">View on GitHub →</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="icon.svg" alt="" width="24" height="24">
+      <span>FreeTube</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="https://github.com/leshkodev/freetube" rel="noopener" target="_blank">GitHub</a>
+      <a href="https://github.com/leshkodev/freetube/issues" rel="noopener" target="_blank">Issues</a>
+      <a href="https://github.com/leshkodev/freetube/blob/main/LICENSE" rel="noopener" target="_blank">License</a>
+      <a href="#install">Install</a>
+      <a href="#faq">FAQ</a>
+      <a href="mailto:support@freetube.io">Contact</a>
+    </nav>
+    <p class="footer-contact">
+      Questions, bug reports, or feedback?
+      <a href="mailto:support@freetube.io">support@freetube.io</a>
+    </p>
+    <p class="footer-fine">
+      FreeTube is a hobby project provided for personal and educational purposes only. Not affiliated with, endorsed by, or sponsored by YouTube or Google.
+      All downloaded content remains the property of its original rights holders.
+    </p>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
